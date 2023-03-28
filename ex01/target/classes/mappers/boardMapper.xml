@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.boardMapper">
+
+	<insert id="create">
+		insert into BOARD_TB (title, content, writer)
+		values (#{title}, #{content}, #{writer})
+	</insert>
+	
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select
+			bno, title, content, writer, regdate, viewcnt
+		from
+			BOARD_TB
+		where bno = #{bno}
+	</select>
+	
+	<update id="update">
+		update BOARD_TB set title=#{title}, content=#{content}
+		where bno = #{bno}
+	</update>
+	
+	<delete id="delete">
+		delete from BOARD_TB where bno = #{bno}
+	</delete>
+	
+	<select id="listAll" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[
+			select
+				bno, title, content, writer, regdate, viewcnt
+			from
+				BOARD_TB
+			where bno > 0
+			order by bno desc, regdate desc
+		]]>
+	</select>
+	
+	<select id="listPage" resultType="BoardVO">  <!-- 이전에 <typeAliases> 설정을 해서 org.zerock.domain 생략가능 (위치 mybatis-config.xml)-->
+		<![CDATA[	
+			SELECT * FROM (
+				SELECT A.*, ROWNUM AS RNUM FROM (SELECT * FROM BOARD_TB ORDER BY bno desc, regdate desc) A WHERE ROWNUM <= 10)
+			WHERE RNUM > 0
+		]]>
+	</select>
+	
+<!-- 	<select id="listCriteria" resultType="BoardVO">
+		<![CDATA[
+			select
+				bno, title, content, writer, regdate, viewcnt
+			from
+				BOARD_TB
+			where bno > 0
+			order by bno desc, regdate desc
+			limit #{pageStart}, #{perPageNum}
+		]]>
+	</select> mysql 기준-->
+	
+	<select id="listCriteria" resultType="BoardVO">
+		<![CDATA[
+			SELECT bno, title, content, writer, regdate, viewcnt
+			FROM (
+				SELECT ROWNUM AS RNUM, bno, title, content, writer, regdate, viewcnt
+     			FROM (
+     				SELECT bno, title, content, writer, regdate, viewcnt
+           			FROM BOARD_TB
+           			WHERE bno > 0
+           			ORDER BY bno DESC, regdate DESC
+       			)
+           	)
+			WHERE RNUM BETWEEN #{pageStart} AND #{perPageNum} + #{pageStart} - 1
+		]]>
+	</select>
+
+	<select id="countPaging" resultType="int">
+		<![CDATA[
+			SELECT count(bno)
+			FROM BOARD_TB
+			WHERE bno > 0
+		]]>
+	</select>
+	
+	
+	
+
+</mapper>
