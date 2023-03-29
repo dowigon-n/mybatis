@@ -19,10 +19,10 @@ public class Criteria {
 		this.page = page;		
 	}
 	
-	//
+	
 	public void setPerPageNum(int perPageNum) {
 		
-		if (perPageNum <= 0 || perPageNum > 100) {
+		if (perPageNum <= 0 || perPageNum > 50) {   // 논리연산자 || OR
 			this.perPageNum = 10;
 			return;
 		}
@@ -34,12 +34,10 @@ public class Criteria {
 		return page;
 	}
 	
-	// method for Mybatis SQL Mapper -
 	public int getPageStart() {
 		return (this.page - 1) * perPageNum;
 	}
 	
-	// method for Mybatis SQL Mapper -
 	public int getPerPageNum() {
 		return this.perPageNum;
 	}

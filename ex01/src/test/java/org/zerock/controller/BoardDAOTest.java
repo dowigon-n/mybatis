@@ -58,18 +58,20 @@ public class BoardDAOTest {
 //	public void testListPage() throws Exception {
 //		
 //		int page = 2;
+//		
 //		List<BoardVO> list = dao.listPage(page);
-//		for (BoardVO boardVO : list) {
+//		for (BoardVO boardVO : list) {  // BoardVO는 제네릭으로 사용되어 List에 BoardVO 객체만 담을 수 있다. 제네릭을 사용함으로써 컴파일 타임에 타입 안전성(type safety)을 보장할 수 있다.
 //			logger.info(boardVO.getBno() + ":" + boardVO.getTitle());
 //		}
 //	}
+	
 	
 	@Test
 	public void testListCriteria() throws Exception {
 		
 		Criteria cri = new Criteria();
-		cri.setPage(6);
-		cri.setPerPageNum(10);
+		cri.setPage(2);
+		cri.setPerPageNum(20);
 		
 		List<BoardVO> list = dao.listCriteria(cri);
 		

@@ -28,7 +28,7 @@ public class BoardController {
 	//등록 화면
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET(BoardVO board, Model model) throws Exception {
-		logger.info("regist get ...................");
+		logger.info("글 등록 화면 ...................");
 	}
 	
 	
@@ -36,7 +36,7 @@ public class BoardController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registPOST(BoardVO board, RedirectAttributes rttr) throws Exception {
 //	public String registPOST(BoardVO board, Model model) throws Exception {
-		logger.info("regist post .....................");
+		logger.info("글 등록 처리.....................");
 		logger.info(board.toString());  // 추가
 		
 		boardService.regist(board);
@@ -72,7 +72,7 @@ public class BoardController {
 		boardService.remove(bno);
 		
 		rttr.addFlashAttribute("msg", "success");
-		return "redirect:/board/listAll";
+		return "redirect:/board/listCri";
 	}
 	
 	//수정
@@ -90,11 +90,12 @@ public class BoardController {
 		boardService.modify(board);
 		
 		rttr.addFlashAttribute("msg", "success");
-		return "redirect:/board/listAll";
+		return "redirect:/board/listCri";
 	}
 	
 	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
-	public void listAll(Criteria cri, Model model) throws Exception {
+	public void listBll(Criteria cri, Model model) throws Exception {
+		
 		logger.info("리스트와 Criteria............................");
 		
 		model.addAttribute("list", boardService.listCriteria(cri));
@@ -103,15 +104,16 @@ public class BoardController {
 	// 추가된 listPage()는 Criteria cri를 파라미터로 사용하고, Model 객체를 이용해서 발생하는 PageMaker를 저장함.
 		// listPage()에서는 크게 목록 데이터를 Model에 저장하는 작업과, PageMaker를 구서해서 Model에 담는 작업이 이루어짐.
 	@RequestMapping(value = "/listPage", method = RequestMethod.GET)
-	public void listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+	public void listPage(Criteria cri, Model model) throws Exception {
 		
 		logger.info(cri.toString());
 		
 		model.addAttribute("list", boardService.listCriteria(cri));
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		//pageMaker.setTotalCount(131);
-		pageMaker.setTotalCount(boardService.listCountCriteria(cri));
+		pageMaker.setTotalCount(131);
+		//pageMaker.setTotalCount(boardService.listCountCriteria(cri));
 		
 		model.addAttribute("pageMaker", pageMaker);
 	}

@@ -35,11 +35,18 @@
 		]]>
 	</select>
 	
-	<select id="listPage" resultType="BoardVO">  <!-- 이전에 <typeAliases> 설정을 해서 org.zerock.domain 생략가능 (위치 mybatis-config.xml)-->
-		<![CDATA[	
-			SELECT * FROM (
-				SELECT A.*, ROWNUM AS RNUM FROM (SELECT * FROM BOARD_TB ORDER BY bno desc, regdate desc) A WHERE ROWNUM <= 10)
-			WHERE RNUM > 0
+	<!-- <typeAliases>에 설정을 해서 org.zerock.domain 생략가능 (위치 mybatis-config.xml)-->
+	<select id="listPage" resultType="BoardVO">
+		<![CDATA[
+			SELECT * FROM
+			(
+				SELECT A.*, ROWNUM AS RN FROM
+					(
+					SELECT * FROM BOARD_TB ORDER BY bno desc, regdate desc
+					) A
+				WHERE ROWNUM <= 10
+			)
+			WHERE RN > 0
 		]]>
 	</select>
 	
@@ -59,17 +66,15 @@
 		<![CDATA[
 			SELECT bno, title, content, writer, regdate, viewcnt
 			FROM (
-				SELECT ROWNUM AS RNUM, bno, title, content, writer, regdate, viewcnt
-     			FROM (
-     				SELECT bno, title, content, writer, regdate, viewcnt
-           			FROM BOARD_TB
-           			WHERE bno > 0
-           			ORDER BY bno DESC, regdate DESC
-       			)
-           	)
-			WHERE RNUM BETWEEN #{pageStart} AND #{perPageNum} + #{pageStart} - 1
+				SELECT bno, title, content, writer, regdate, viewcnt,
+				ROW_NUMBER() OVER (ORDER BY bno DESC, regdate DESC) AS RN
+				FROM BOARD_TB
+				WHERE bno > 0
+			)
+			WHERE RN BETWEEN #{pageStart} AND #{pageStart} + #{perPageNum} - 1
 		]]>
 	</select>
+
 
 	<select id="countPaging" resultType="int">
 		<![CDATA[
