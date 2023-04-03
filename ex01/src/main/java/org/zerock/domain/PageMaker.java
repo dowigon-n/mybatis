@@ -7,7 +7,6 @@ public class PageMaker {
 	private int endPage;
 	private boolean prev;
 	private boolean next;
-	
 	private int displayPageNum = 10;   // 화면에 보여지는 페이지 번호의 숫자를 의미하는 변수를 추가함. displayPageNum = 10 이면 10개 페이지 번호 보임.
 	
 	private Criteria cri;
