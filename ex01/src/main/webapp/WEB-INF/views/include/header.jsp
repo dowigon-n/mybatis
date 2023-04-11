@@ -38,7 +38,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>BJEANS</b> PROJECT</span>
+          <span class="logo-lg"><b>A</b> PROJECT</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -374,7 +374,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-              	<li><a href="${contextPath}/board/register" class="active"><i class="fa fa-circle-o"></i>테스트 게시판</a></li>
+              	<li><a href="${contextPath}/board/register" class="active"><i class="fa fa-circle-o"></i>게시글 등록</a></li>
+              	<li><a href="${contextPath}/board/listPage"><i class="fa fa-circle-o"></i>게시판 목록</a></li>
                 <!-- <li class="active"><a href="general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
                	<li><a href="advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
                 <li><a href="editors.html"><i class="fa fa-circle-o"></i> Editors</a></li> -->
