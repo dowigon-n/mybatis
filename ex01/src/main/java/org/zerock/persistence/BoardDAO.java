@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.SearchCriteria;
 
 public interface BoardDAO {
 	
@@ -25,5 +26,10 @@ public interface BoardDAO {
 	
 	//페이징
 	public int countPaging(Criteria cri) throws Exception;
+	
+	//동적 SQL 메소드 설정
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception;
+	
+	public int listSearchCount(SearchCriteria cri) throws Exception;
 
 }

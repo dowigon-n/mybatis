@@ -71,7 +71,7 @@
 				FROM BOARD_TB
 				WHERE bno > 0
 			)
-			WHERE RN BETWEEN #{pageStart} AND #{pageStart} + #{perPageNum} - 1
+			WHERE RN BETWEEN #{pageStart} + 1 AND #{pageStart} + #{perPageNum}
 		]]>
 	</select>
 
@@ -84,7 +84,114 @@
 		]]>
 	</select>
 	
+<!-- 	<select id="listSearch" resultType="BoardVO">
+	<![CDATA[
+		SELECT *
+		FROM board_tb
+		WHERE bno > 0
+		order by bno desc
+		limit #{pageStart}, #{perPageNum}
+	]]>
+	</select> mysql 기준 -->
 	
+	<select id="listSearch" resultType="BoardVO">
+		<![CDATA[
+		SELECT *
+		FROM (
+			  SELECT board_tb.*, ROWNUM AS RNUM
+			  FROM (
+				    SELECT * 
+				    FROM board_tb
+				    WHERE bno > 0
+		]]>
+					    <if test="searchType != null">
+					      <if test="searchType == 't'.toString()">
+					        AND title LIKE '%' || #{keyword} || '%'
+					      </if>
+					      <if test="searchType == 'c'.toString()">
+					        AND content LIKE '%' || #{keyword} || '%'
+					      </if>
+					      <if test="searchType == 'w'.toString()">
+					        AND writer LIKE '%' || #{keyword} || '%'
+					      </if>
+					      <if test="searchType == 'tc'.toString()">
+					        AND (title LIKE '%' || #{keyword} || '%' OR content LIKE '%' || #{keyword} || '%')
+					      </if>
+					      <if test="searchType == 'cw'.toString()">
+					        AND (content LIKE '%' || #{keyword} || '%' OR writer LIKE '%' || #{keyword} || '%')
+					      </if>
+					      <if test="searchType == 'tcw'.toString()">
+					        AND (title LIKE '%' || #{keyword} || '%' OR content LIKE '%' || #{keyword} || '%' OR writer LIKE '%' || #{keyword} || '%')
+					      </if>
+					    </if>
+		<![CDATA[    
+				    ORDER BY bno DESC
+			  ) board_tb
+			  WHERE ROWNUM <= #{pageStart} + #{perPageNum}
+		)
+		WHERE RNUM > #{pageStart}
+		]]>
+	</select>
 	
+	<select id="listSearchCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(bno)
+			FROM board_tb
+			WHERE bno > 0
+		]]>
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				AND title LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			
+			<if test="searchType == 'c'.toString()">
+				AND content LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			
+			<if test="searchType == 'w'.toString()">
+				AND writer LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			
+			<if test="searchType == 'tc'.toString()">
+				AND (title LIKE '%' CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+			</if>
+			
+			<if test="searchType == 'cw'.toString()">
+				AND (content LIKE CONCAT('%', #{keyword}, '%') OR writer LIKE CONCAT('%', #{keyword}, '%'))
+			</if>
+			
+			<if test="searchType == 'tcw'.toString()">
+				AND (title LIKE '%' CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%') OR writer LIKE CONCAT('%', #{keyword}, '%'))
+			</if>
+		</if>
+	</sql>		
+
+<!--	
+	<select id="listSearch" resultType="BoardVO">
+		<![CDATA[
+			SELECT *
+			FROM board_tb
+			WHERE bno > 0
+		]]>
+
+		<include refid="search"></include>
+	
+		<![CDATA[
+			SELECT *
+			FROM (
+				SELECT board_tb.*, ROWNUM AS RN
+				FROM
+					SELECT *
+					FROM board_tb
+					WHERE bno > 0
+					ORDER BY bno DESC
+				) board_tb
+			)
+			WHERE RN BETWEEN #{pageStart} + 1 AND #{pageStart} + #{perPageNum}
+		]]>
+	</select> -->
 
 </mapper>

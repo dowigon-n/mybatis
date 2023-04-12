@@ -376,6 +376,7 @@
               <ul class="treeview-menu">
               	<li><a href="${contextPath}/board/register" class="active"><i class="fa fa-circle-o"></i>게시글 등록</a></li>
               	<li><a href="${contextPath}/board/listPage"><i class="fa fa-circle-o"></i>게시판 목록</a></li>
+              	<li><a href="${contextPath}/sboard/list"><i class="fa fa-circle-o"></i>검색 적용 게시만 목록</a></li>
                 <!-- <li class="active"><a href="general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
                	<li><a href="advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
                 <li><a href="editors.html"><i class="fa fa-circle-o"></i> Editors</a></li> -->
