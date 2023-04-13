@@ -69,25 +69,22 @@ $(document).ready(function(){
 
 	console.log(formObj);
 
-	$(".btn-primary").on("click", function(){
-		formObj.attr("method", "get");
-		formObj.attr("action", "/sboard/list");
-		formObj.submit();
-	});
-
-	
-	$(".btn-danger").on("click", function(){
-		formObj.attr("action", "/sboard/removePage");
-		formObj.submit();
-	});
-	
-	
-	$(".btn-warning").on("click", function(){
-		formObj.attr("action", "/board/modifyPage");
+	$(".modifyBtn").on("click", function(){
+		formObj.attr("action", "/sboard/modifyPage");
 		formObj.attr("method", "get");
 		formObj.submit();
 	});
 	
+	$(".removeBtn").on("click", function(){
+		formObj.attr("action", "/sboard/removePage")
+		formObj.submit();
+	});
+	
+	$(".goListBtn").on("click", function(){
+		formObj.attr("method", "get");
+		formObj.attr("action", "/sboard/list")
+		formObj.submit();
+	});
 	
 });
 </script>

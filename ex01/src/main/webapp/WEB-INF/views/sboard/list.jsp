@@ -66,28 +66,28 @@
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box-footer -->
-	
-			<div class="d-flex justify-content-center">
-				<ul class="pagination">
-					<!-- JSTL의 c:if 는 boolean으로 나오는 결과를 확인하므로 ${pageMaker.prev}를 이용해서 이전 페이지로 가는 링크가 있어야 하는지를 판단함. -->
-					<c:if test="${pageMaker.prev}">
-						<li><a href="list${pageMaker.makeSearch(pageMaker.startPage - 1) }">&laquo;</a></li>
-					</c:if>
+			<div class="text-center">
+				<div class="d-flex justify-content-center">
+					<ul class="pagination">
+						<!-- JSTL의 c:if 는 boolean으로 나오는 결과를 확인하므로 ${pageMaker.prev}를 이용해서 이전 페이지로 가는 링크가 있어야 하는지를 판단함. -->
+						<c:if test="${pageMaker.prev}">
+							<li><a href="list${pageMaker.makeSearch(pageMaker.startPage - 1) }">&laquo;</a></li>
+						</c:if>
+							
+						<!-- 각 페이지 번호의 출력 -->
+						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+							<li 
+								<c:out value="${pageMaker.cri.page == idx?'class =active':''}"/>>
+								<a href="list${pageMaker.makeSearch(idx)}">${idx}</a>
+							</li>
+						</c:forEach>
 						
-					<!-- 각 페이지 번호의 출력 -->
-					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li 
-							<c:out value="${pageMaker.cri.page == idx?'class =active':''}"/>>
-							<a href="list${pageMaker.makeSearch(idx)}">${idx}</a>
-						</li>
-					</c:forEach>
-					
-					<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-						<li><a href="list${pageMaker.makeSearch(pageMaker.endPage + 1)}">&raquo;</a></li>
-					</c:if>
-				</ul>
+						<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+							<li><a href="list${pageMaker.makeSearch(pageMaker.endPage + 1)}">&raquo;</a></li>
+						</c:if>
+					</ul>
+				</div>
 			</div>
-			
 		</div>
 		<!-- /.col (left) -->
 	</div>
@@ -96,17 +96,16 @@
 <script>
 $(document).ready(function() {
 			
-			$('#searchBtn').on("click",	function(event) {
-				self.location = "list"
-				+ '${pageMaker.makeQuery(1)}'
-				+ "&searchType=" + $("select option:selected").val()
-				+ "&keyword=" + encodeURIComponent($('#keywordInput').val()); 
-			});
-			
-			$('#newBtn').on("click", function(evt){
-				self.location = "register";
-			});
-		});
+	$('#searchBtn').on("click",	function(event) {
+		self.location = "list" + '${pageMaker.makeQuery(1)}'
+		+ "&searchType=" + $("select option:selected").val()
+		+ "&keyword=" + encodeURIComponent($('#keywordInput').val()); 
+	});
+	
+	$('#newBtn').on("click", function(evt){
+		self.location = "register";
+	});
+});
 </script>
 
 		
